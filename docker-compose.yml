@@ -1,0 +1,49 @@
+networks: {}
+version: '3.4'
+services:
+  core:
+    cap_add:
+    - SYS_PTRACE
+    command: zsh
+    # entrypoint: ["su", "ros2"]
+    # depends_on: {}
+    environment:
+      DISPLAY: :0
+      HOME: /home/bot
+      zsh: ${HOME}/.oh_my_zsh
+    hostname: bot
+    image: registry.dorabot.com/moma/v2/mob_images/humble:feature-humble-mobilebase
+    network_mode: host
+    tty: true
+    stdin_open: true
+    privileged: true
+    shm_size: 2g
+    user: bot
+    volumes:
+    - /home/hang/.ssh:/home/bot/.ssh:rw
+    - /home/hang/ros2_docker/.zshrc:/home/bot/.zshrc:rw
+    # - /home/hang/ros2_docker/.source:/home/hang/.source:rw
+    - /home/hang/ros2_docker/.oh-my-zsh:/home/bot/.oh-my-zsh:rw
+    - /home/hang/ros2_docker/.tmux.conf:/home/bot/.tmux.conf:rw
+    - /home/hang/ros2_docker/.zshrc.env:/home/bot/.zshrc.env:rw
+    - /dev:/dev:rw
+    - /etc/udev/rules.d:/etc/udev/rules.d:rw
+    - /media:/media:rw
+    - /usr/share/zoneinfo/PRC:/etc/localtime:ro
+    - /etc/timezone:/etc/timezone:ro
+    - /etc/ssh:/etc/ssh:ro
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    - /etc/passwd:/tmp/host/etc/passwd:ro
+    - /etc/group:/tmp/host/etc/group:ro
+    - /etc/shadow:/tmp/host/etc/shadow:ro
+    - /usr/bin/docker:/usr/bin/docker:rw
+    - /run/docker.sock:/var/run/docker.sock:rw
+    # - /home/hang/manipulator:/home/hang/manipulator_ws/moma_app:rw
+    # - /home/hang/manipulator/moma_decision_taking/resources:/home/hang/manipulator_resources:rw
+    # - /home/hang/moma_system_config.yaml:/opt/dorahang/moma_system_config.yaml:ro
+    # - /home/hang/ros2_docker/diy.metafile.yml:/tmp/metafile/diy.metafile.yml:ro
+    # - /home/hang/ros2_docker/metafile.yml:/tmp/metafile/metafile.yml:ro
+    # - registry_dorahang_com_pick_and_place_docker_codebase_latest_pick_and_place:/pick_and_place
+    # - registry_dorahang_com_moma_v2_moma_env_manipulator_dep_latest_home_hang_manipulator_ws:/home/hang/manipulator_ws
+    # - registry_dorahang_com_moma_v2_moma_env_manipulator_dep_latest_opt_dorahang_resources:/opt/dorahang/resources
+    working_dir: /home
